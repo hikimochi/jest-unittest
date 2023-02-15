@@ -3,13 +3,11 @@ import { Store } from './store';
 
 export class Customer {
   purchase(store: Store, product: Product, num: number) {
-    const zaiko = store.getInventory(product);
-    const newZaiko = zaiko - num;
-    if (newZaiko < 0) {
-      return false;
-    } else {
-      store.updateInventory(product, newZaiko);
+    if (store.hasEnoughInventory(product, num)) {
+      store.removeInventory(product, num);
       return true;
+    } else {
+      return false;
     }
   }
 }
