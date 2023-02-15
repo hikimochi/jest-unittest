@@ -1,6 +1,5 @@
 import { Customer } from '../src/customer';
 import { Store } from '../src/store';
-import { Product } from '../type/product';
 
 jest.mock('../src/store');
 Store as jest.Mock;
@@ -17,6 +16,7 @@ describe('Store', () => {
     expect(customer.purchase(store, 'Shampoo', 5)).toBe(true);
     expect(spyHasEnoughInventory).toBeCalled();
     expect(spyRemoveInventory).toBeCalled();
+    spyRemoveInventory.mockClear(); // ここ説明する
   });
 
   it('在庫が十分にない場合、購入は失敗する', () => {
@@ -29,6 +29,6 @@ describe('Store', () => {
 
     expect(customer.purchase(store, 'Shampoo', 5)).toBe(false);
     expect(spyHasEnoughInventory).toBeCalled();
-    expect(spyRemoveInventory).toBeCalled();
+    expect(spyRemoveInventory).not.toBeCalled();
   });
 });
